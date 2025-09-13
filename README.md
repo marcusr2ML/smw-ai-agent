@@ -1,1 +1,4 @@
 This is my first uploaded project to github. It is a work in progress. I want to add a nueral network of somekind (probably VAE) to provide a latent representation of my play style, and also a custom policy learned from my gameplay. These parts are in the works
+
+
+The agent implements a double-Q learning algorithm which
