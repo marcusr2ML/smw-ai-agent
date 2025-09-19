@@ -9,8 +9,8 @@ The output space is simply the number of button combinations the bot is allowed 
 First data is collected by capturing real time gameplay using a class HumanDataCollect to train a variational autoencoder (VAE) to learn the schematics of the expert users play style. The class saves a bunch of segments set by checkpoints for a set of playthroughs and combines them to form a statistical ensemble. The main purpose is to train mario to move foward and run. A convolutional nueral network will be used to acquire the inputs that are feed into the VAE. Note a double Q-learning algorithm can also be trained by using these segments, just drop the epsilon greedy approach till the exploration stage. 
 
 
-######## IMPORTANT MODEL PARAMETER DESCRIPTION
-How to use the parameters of the maincode. Code will be distinguished with a # to the left of it
+#### IMPORTANT MODEL PARAMETER DESCRIPTION
+#### How to use the parameters of the maincode. Code will be distinguished with a # to the left of it
 
 #### DATA COLLECTION FROM MY PLAYSTYLE
 To record playthroughs or not. This module will take inputs from a Human player in order to extract the latent information in the experts playstyle
