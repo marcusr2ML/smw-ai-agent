@@ -36,7 +36,7 @@ Should clone my playstyle or not
 This will set the number of episodes to simulate
 * NUM_OF_EPISODES = 2000
 
-Version of SM1
+SM1 sets world, stage and version: SuperMarioBros-<world>-<stage>-v<version>
 * ENV_NAME = 'SuperMarioBros-1-1-v0'         
 
 Training env instantiation and render mode displayed to user or not
