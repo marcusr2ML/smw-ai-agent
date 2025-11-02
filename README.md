@@ -19,26 +19,26 @@ To record playthroughs or not. This module will take inputs from a Human player 
 
 These will set total number of playthroughs or trials and the location of checkpoints. In total there will be NUM_TRIALS^(length(checkpoints)) (power of) playthroughs to sample from in the training group if we randomly select a trail for a given segment.
 Notice that the locations of the checkpoints could introduce a bias into the training. The hopes is the VAE below abstracts these issues away.
-*NUM_OF_TRIALS = 7
-*check_points = [722,898,2130,5000]
+* NUM_OF_TRIALS = 7
+* check_points = [722,898,2130,5000]
 
 This class saves the playthrough actions to a dictionary to sample from for the training loop
-*data_collect = HumanDataCollect(check_points, 79 ,NUM_OF_TRIALS)
+* data_collect = HumanDataCollect(check_points, 79 ,NUM_OF_TRIALS)
 
 #### AGENT CLONES MY PLAY STYLE
 
 This will load data from the previous submodule
-*data_collect.load_actions()
+* data_collect.load_actions()
 
 Should clone my playstyle or not
-*SHOULD_CLONE = False
+* SHOULD_CLONE = False
 
 This will set the number of episodes to simulate
-*NUM_OF_EPISODES = 2000
+* NUM_OF_EPISODES = 2000
 
 Version of SM1
-*ENV_NAME = 'SuperMarioBros-1-1-v0'         
+* ENV_NAME = 'SuperMarioBros-1-1-v0'         
 
 Training env instantiation and render mode displayed to user or not
-*DISPLAY = True
-*env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)
+* DISPLAY = True
+* env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)
