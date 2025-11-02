@@ -1,4 +1,7 @@
-This is my first uploaded project to github. It is a work in progress. I want to add a nueral network of somekind (probably VAE) to provide a latent representation of my play style, and also a custom policy learned from my gameplay. These parts are in the works. The main code should also have enough comments to follow along, but an outline is given here.
+This is my first uploaded project to github. It is a work in progress. I want to add a nueral network of somekind (probably VAE) to provide a latent representation of my play style, and also a custom policy learned from my gameplay. These parts are in the works. The main programs should also have enough comments to follow along, but an outline is given here.
+#### main programs as of Nov.2 2025:
+* main_sm1_VAE.py -- clones my playstyle using replay buffers and a VAE
+* main_sm1_clone.py 
 
 ##### DESCRIPTION OF IMPLEMENTATION OF AI AGENT
 
