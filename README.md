@@ -1,7 +1,7 @@
 This is my first uploaded project to github. It is a work in progress. I want to add a nueral network of somekind (probably VAE) to provide a latent representation of my play style, and also a custom policy learned from my gameplay. These parts are in the works. The main programs should also have enough comments to follow along, but an outline is given here.
 #### main programs as of Nov.2 2025:
-* main_sm1_VAE.py -- clones my playstyle using replay buffers and a VAE
-* main_sm1_clone.py 
+* main_sm1_VAE.py     -- clones my playstyle using replay buffers and a VAE
+* main_sm1_clone.py   -- clones my playstyle using replay buffers and double-Q learning algorithm on my actions followed by an epsilon-greedy algorithm to explore further 
 
 ##### DESCRIPTION OF IMPLEMENTATION OF AI AGENT
 
@@ -13,10 +13,10 @@ First data is collected by capturing real time gameplay using a class HumanDataC
 **Note a double Q-learning algorithm can also be trained by using these segments, just drop the epsilon greedy approach till the exploration stage. 
 
 
-#### IMPORTANT MODEL PARAMETER DESCRIPTION
+#### IMPORTANT MODEL PARAMETERS AND MODULES
 #### How to use the parameters of the maincode. Code snippets will be distinguished from text with a bullet point. 
 
-#### DATA COLLECTION FROM MY PLAYSTYLE
+#### DATA COLLECTION FROM MY PLAYSTYLE -- This is the same across main programs
 To record playthroughs or not. This module will take inputs from a Human player in order to extract the latent information in the experts playstyle
 * DATA_COLLECT = True/False 
 
@@ -28,7 +28,7 @@ Notice that the locations of the checkpoints could introduce a bias into the tra
 This class saves the playthrough actions to a dictionary to sample from for the training loop
 * data_collect = HumanDataCollect(check_points, 79 ,NUM_OF_TRIALS)
 
-#### AGENT CLONES MY PLAY STYLE
+#### AGENT CLONES MY PLAY STYLE --  main programs will be slightly different
 
 This will load data from the previous submodule
 * data_collect.load_actions()
