@@ -145,20 +145,20 @@ def reward_biased_vae_loss(original_actions, reconstructed_actions, mu, logvar, 
         reconstructed_actions = torch.tensor(reconstructed_actions, dtype=torch.float32)
 
     # Reconstruction loss
-    #recon_loss = F.mse_loss(reconstructed_actions, original_actions, reduction="mean")
+    # recon_loss = F.mse_loss(reconstructed_actions, original_actions, reduction="mean")
     recon_loss = F.cross_entropy(reconstructed_actions, original_actions)
     # KL divergence loss
     kl_loss = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp()) / original_actions.size(0)
 
 
     # Final loss
-    if toggle_loss_func>0:
+    if toggle_loss_func>0: #This attempts to train away bad playthroughs and reward good ones after some behavior has been learned 
         # Bias term (positive if better than average)
         sigma = max(mean_reward/4, 1.0)  # prevents division by tiny numbers
         reward_diff = torch.tensor(batch_reward - mean_reward)
         reward_bias = torch.tanh(reward_diff/sigma)
         loss = reward_bias * recon_loss + beta*kl_loss
-    else:
+    else: #regular KL divergence using a beta annealing 
         toggle_loss_func -= 1
         loss = recon_loss + beta*kl_loss
 
