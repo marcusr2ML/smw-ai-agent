@@ -15,7 +15,7 @@ class AgentNN(nn.Module):
             nn.ReLU(),
         )
 
-        conv_out_size = self._get_conv_out(input_shape)
+        conv_out_size = self._get_conv_out(input_shape)  # flatten layer size
 
         # Linear layers
         self.network = nn.Sequential(
@@ -35,10 +35,9 @@ class AgentNN(nn.Module):
     def forward(self, x):
         return self.network(x)
 
-    def _get_conv_out(self, shape):
-        o = self.conv_layers(torch.zeros(1, *shape))
-        # np.prod returns the product of array elements over a given axis
-        return int(np.prod(o.size()))
+    def _get_conv_out(self, shape):                    # helper function to get size of out_put conv layer
+        o = self.conv_layers(torch.zeros(1, *shape))   # splat operator extracts a set of outputs dependent on feature maps, channels, output dim etc: (batch_size, num_channels, height, width) 
+        return int(np.prod(o.size()))                  # size of flattened array
     
     def _freeze(self):        
         for p in self.network.parameters():
