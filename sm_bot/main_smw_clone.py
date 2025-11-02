@@ -162,11 +162,12 @@ if SHOULD_CLONE:
                 reward = 0
                 new_state, _ , done, truncated, curr_info = env.step(a)
                 
+                #custom reward function
                 if prev_info is not None:
                      reward = agent.get_custom_reward(prev_info, curr_info, a, done)
                 total_reward += reward
                 if done:
-                    agent.timer_move = 0
+                    agent.timer_move = 0       #these give mario insentive to move by tracking consectutive frames where mario is moving or stationary
                     agent.timer_stag = 0
                     agent.x_max = max(agent.x_max,info['x_pos']/2)
                     agent.x_max_curr = 0
