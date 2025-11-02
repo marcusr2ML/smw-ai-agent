@@ -15,7 +15,7 @@ First data is collected by capturing real time gameplay using a class HumanDataC
 
 #### DATA COLLECTION FROM MY PLAYSTYLE
 To record playthroughs or not. This module will take inputs from a Human player in order to extract the latent information in the experts playstyle
-#### *DATA_COLLECT = True/False*
+* DATA_COLLECT = True/False *
 
 These will set total number of playthroughs or trials and the location of checkpoints. In total there will be NUM_TRIALS**(length(checkpoints)) playthroughs to sample from in the training group if we randomly select a trail for a given segment.
 Notice that the locations of the checkpoints could introduce a bias into the training. The hopes is the VAE below abstracts these issues away.
