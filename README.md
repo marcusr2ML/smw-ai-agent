@@ -1,47 +1,62 @@
-This is my first uploaded project to github. It is a work in progress. I want to add a nueral network of somekind (probably VAE) to provide a latent representation of my play style, and also a custom policy learned from my gameplay. These parts are in the works. The main programs should also have enough comments to follow along, but an outline is given here.
-#### main programs as of Nov.2 2025:
-* main_sm1_VAE.py     -- clones my playstyle using replay buffers and a VAE
-* main_sm1_DQ.py   -- clones my playstyle using replay buffers and double-Q learning algorithm on my actions followed by an epsilon-greedy algorithm to explore further 
+# **Super Mario AI Agent Project**
 
-##### DESCRIPTION OF IMPLEMENTATION OF AI AGENT
+This is my first uploaded project to GitHub. It is a work in progress. I want to add a neural network (probably **VAE**) to provide a latent representation of my play style, and also a custom policy learned from my gameplay. These parts are in the works. The main programs have enough comments to follow along, and an outline is given below.
 
-The agent is implemented with a double-Q learning algorithm using the Bell-man equation. A convolutional nueral network is trained on the game state and the resultant reward based off the policy where motion is encoded in the training by stacking 4 consecutive frames of gameplay in each training step. An epsilon-greedy approach is used to explore the action space where the bot performs a random action if a rand_int<epsilon is choosen; otherwise, the optimal action determined by the cnn is taken. Taking the optimal action is a greedy apporach, so to insetivize reward a replay buffer of the above cnn is saved every num_save epochs of training and is used in the above Bell-man equation to determine the loss of our current nework. Notice that this means the ccn after training picks an optimal step as a greedy algorithm would, but this choice is crafted around future reward. 
+#### **Main Programs (as of Nov. 2, 2025)**
+* **main_sm1_VAE.py** — clones my playstyle using replay buffers and a **VAE**
+* **main_sm1_DQ.py** — clones my playstyle using replay buffers and **Double-Q learning** on my actions followed by an **epsilon-greedy algorithm** to explore further
 
-The output space is simply the number of button combinations the bot is allowed to hit (taken to be a subset of a human players) and the frames are pixelated to a lower resolution as well as greyscaled to reduce the number of color channels in the ccn. To train the ai agent the main program needs to be ran. It forms an instance of smw_gym_retro and the agent of the Agent class using the double-Q learning algorithm. There are several modules present before this exploratory loop. 
+##### **Description of Implementation of AI Agent**
+The agent is implemented with a **Double-Q learning algorithm** using the Bellman equation. A **convolutional neural network (CNN)** is trained on the game state and the resultant reward based on the policy, where motion is encoded by stacking 4 consecutive frames of gameplay in each training step.  
 
-First data is collected by capturing real time gameplay using a class HumanDataCollect to train a variational autoencoder (VAE) to learn the sematics of the expert users play style. The class saves a bunch of segments set by checkpoints for a set of playthroughs and combines them to form a statistical ensemble. The main purpose is to train mario to move foward and run. A convolutional nueral network will be used to acquire the inputs that are feed into the VAE. The button combinations allowed by the bot from gym_retro include simple, normal, and complex. My goal is to use complex button combinations and reduce the training time for the double-Q learning algorithm to acquire the knowledge mario should move foward and also he should jump high while moving.  
-**Note a double Q-learning algorithm can also be trained by using these segments, just drop the epsilon greedy approach till the exploration stage. 
+An **epsilon-greedy approach** is used to explore the action space: the bot performs a random action if a `rand_int < epsilon`; otherwise, the optimal action determined by the CNN is taken. Taking the optimal action is a greedy approach, so to **incentivize reward**, a replay buffer of the CNN is saved every `num_save` epochs and used in the Bellman equation to determine the loss of the current network. After training, the CNN picks optimal steps as a greedy algorithm would, but choices are crafted to maximize **future reward**.  
 
+The **output space** is the number of allowed button combinations (a subset of human player inputs). Frames are **pixelated and greyscaled** to reduce the number of color channels for the CNN.  
 
-#### IMPORTANT MODEL PARAMETERS AND MODULES
-#### How to use the parameters of the maincode. Code snippets will be distinguished from text with a bullet point. 
+To train the AI agent, the main program must be run. It instantiates **smw_gym_retro** and the **Agent** class using the **Double-Q learning algorithm**.  
 
-#### DATA COLLECTION FROM MY PLAYSTYLE -- This is the same across main programs
-To record playthroughs or not. This module will take inputs from a Human player in order to extract the latent information in the experts playstyle
-* DATA_COLLECT = True/False 
+Gameplay data is first collected using the **HumanDataCollect** class to train a **VAE** to learn the semantics of expert play style. This class saves multiple segments defined by checkpoints across playthroughs and combines them into a statistical ensemble. The main purpose is to train Mario to **move forward and run**.  
 
-These will set total number of playthroughs or trials and the location of checkpoints. In total there will be NUM_TRIALS^(length(checkpoints)) (power of) playthroughs to sample from in the training group if we randomly select a trail for a given segment.
-Notice that the locations of the checkpoints could introduce a bias into the training. The hopes is the VAE below abstracts these issues away.
-* NUM_OF_TRIALS = 7
-* check_points = [722,898,2130,5000]
+The CNN acquires inputs that are fed into the VAE. Button combinations allowed by the bot from **gym_retro** include simple, normal, and complex. My goal is to use **complex button combinations** and reduce the training time for the Double-Q learning algorithm, so Mario learns to move forward and jump high efficiently.  
 
-This class saves the playthrough actions to a dictionary to sample from for the training loop
-* data_collect = HumanDataCollect(check_points, 79 ,NUM_OF_TRIALS)
+**Note:** A **Double-Q learning algorithm** can also be trained directly using these segments — just drop the epsilon-greedy approach until the exploration stage.
 
-#### AGENT CLONES MY PLAY STYLE --  main programs will be slightly different
+#### **Important Model Parameters and Modules**
+#### **How to use the parameters of the main code**
+Code snippets are distinguished from text with a bullet point.
 
-This will load data from the previous submodule
-* data_collect.load_actions()
+#### **Data Collection from My Playstyle** (same across main programs)
+To record playthroughs or not, set:
 
-Should clone my playstyle or not
-* SHOULD_CLONE = False
+* **DATA_COLLECT = True/False**
 
-This will set the number of episodes to simulate
-* NUM_OF_EPISODES = 2000
+Set the total number of playthroughs or trials and the locations of checkpoints. In total, there will be `NUM_TRIALS^(length(check_points))` playthroughs sampled randomly during training.  
 
-SM1 sets world, stage and version: SuperMarioBros-<world>-<stage>-v<version>
-* ENV_NAME = 'SuperMarioBros-1-1-v0'         
+* **NUM_OF_TRIALS = 7**
+* **check_points = [722, 898, 2130, 5000]**
 
-Training env instantiation and render mode displayed to user or not
-* DISPLAY = True
-* env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)
+This class saves playthrough actions to a dictionary for training:
+
+* **data_collect = HumanDataCollect(check_points, 79, NUM_OF_TRIALS)**
+
+#### **Agent Clones My Playstyle** (main programs differ slightly)
+Load data from the previous module:
+
+* **data_collect.load_actions()**
+
+Should clone my playstyle or not:
+
+* **SHOULD_CLONE = False**
+
+Set the number of episodes to simulate:
+
+* **NUM_OF_EPISODES = 2000**
+
+Set world, stage, and version:  
+
+* **ENV_NAME = 'SuperMarioBros-1-1-v0'**
+
+Training environment instantiation and render mode:
+
+* **DISPLAY = True**
+* **env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)**
