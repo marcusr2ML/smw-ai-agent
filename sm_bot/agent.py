@@ -37,8 +37,8 @@ class Agent:
         # Optimizer and loss
         self.optimizer = torch.optim.Adam(self.online_network.parameters(), lr=self.lr)
         self.loss = torch.nn.MSELoss()
-        # self.loss = torch.nn.SmoothL1Loss() # Feel free to try this loss function instead!
-
+        # self.loss = torch.nn.SmoothL1Loss()
+                     
         # Replay buffer
         storage = LazyMemmapStorage(replay_buffer_capacity)
         self.replay_buffer = TensorDictReplayBuffer(storage=storage)
