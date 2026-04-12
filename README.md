@@ -73,7 +73,7 @@ Different transformer variants are implemented, each using different pixel seque
 * **agent_transformer_rev_row.py** — Processes pixel rows in reverse order, changing spatial dependency structure  
 * **agent_transformer_spiral.py** — Uses a spiral traversal of pixels to encode global spatial structure differently  
 
-Each transformer is paired with a convolutional preprocessing module:
+Each transformer is paired with a convolutional preprocessing module, labeled in respect to the trailing tags. Similarly with the double-Q learning agent
 
 These modules convert raw game frames into structured sequences for transformer input.
 
