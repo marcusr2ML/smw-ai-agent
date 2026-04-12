@@ -60,3 +60,21 @@ Training environment instantiation and render mode:
 
 * **DISPLAY = True**
 * **env = gym_super_mario_bros.make(ENV_NAME, render_mode='human' if DISPLAY else 'rgb', apply_api_compatibility=True)**
+
+
+### **Transformer-Based Models (New)**
+
+In addition, this project now includes several transformer-based architectures designed to learn from sequences of pixel data. These models take in ordered pixel sequences, allowing the network to learn temporal and spatial dependencies across gameplay.
+
+Different transformer variants are implemented, each using different pixel sequence constructions to capture different semantics:
+
+* **agent_transformer.py** — Standard transformer using sequential pixel ordering  
+* **agent_transformer_center.py** — Prioritizes center-focused pixel sequences to emphasize Mario and nearby interactions  
+* **agent_transformer_rev_row.py** — Processes pixel rows in reverse order, changing spatial dependency structure  
+* **agent_transformer_spiral.py** — Uses a spiral traversal of pixels to encode global spatial structure differently  
+
+Each transformer is paired with a convolutional preprocessing module:
+
+These modules convert raw game frames into structured sequences for transformer input.
+
+The core idea is that different pixel traversal strategies encode different semantics of the game state, allowing the model to learn multiple representations of movement, obstacles, and spatial relationships.
