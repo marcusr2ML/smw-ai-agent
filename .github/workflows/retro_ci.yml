@@ -1,0 +1,24 @@
+name: Retro CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          environment-file: mini_retro.yml
+          activate-environment: retro_env
+
+      - name: Run test
+        shell: bash -l {0}
+        run: |
+          python test.py
