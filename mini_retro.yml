@@ -343,4 +343,3 @@ dependencies:
       - typing-extensions==4.4.0
       - tzdata==2025.3
       - urllib3==1.26.13
-prefix: /home/marc/miniconda3/envs/retro_env
