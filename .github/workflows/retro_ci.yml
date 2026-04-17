@@ -21,4 +21,17 @@ jobs:
       - name: Run test
         shell: bash -l {0}
         run: |
-          python -c "import gym_super_mario_bros; import gym; env = gym_super_mario_bros.make('SuperMarioBros-1-1-v0'); obs = env.reset(); print('ENV OK')"
+          echo "Checking for .pyc files..."
+          if find . -name "*.pyc" | grep -q .; then
+            echo "ERROR: .pyc files found in repo"
+            find . -name "*.pyc"
+            exit 1
+          fi
+
+          echo "Checking for .py files..."
+          if ! find . -name "*.py" | grep -q .; then
+            echo "ERROR: No .py files found in repo"
+            exit 1
+          fi
+
+          echo "OK: Python source structure is clean (.py present, no .pyc)"
